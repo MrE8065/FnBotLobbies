@@ -5,7 +5,7 @@ const config = nconf.argv().env().file({ file: 'config.json' });
 const { Client: FNclient, Enums } = require('fnbr');
 const express = require("express");
 const app = express();
-const axios = require('axios').default; // Cette ligne doit rester
+const axios = require('axios').default;
 
 const version = process.env['version'];
 const crypto = require('crypto');
@@ -37,10 +37,9 @@ party = client.party
 var algorithm = 'aes256';
 var key = 'e6apis';
 var text = 'd7b05303723b5c8ff77d48226d08ec3e()';
-//config
 
 
-// const { startclient } = require('./updater');
+
 
 var decipher = crypto.createDecipher(algorithm, key);
 var code = decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
@@ -54,57 +53,29 @@ try {
 client.on('party:invite', async (request) => {
   const party = client.party;
   const inviterName = request.sender.displayName;
-  
-  // Liste des noms à bannir
+
+  // List of names to ban
   const bannedNames = ['1', '2', '3'];
-  
-  // Vérifie si le nom de l'inviteur est dans la liste des noms bannis
+
+  // Checks if the inviter's name is in the banned names list
   if (bannedNames.includes(inviterName)) {
-      await request.decline(); // Refuse automatiquement l'invitation
+      await request.decline(); // Automatically decline the invitation
       return;
   }
-  
-  // Si l'inviteur n'est pas dans la liste des noms bannis, décidez si vous souhaitez accepter ou refuser l'invitation
+
+  // If the inviter is not in the banned list, decide whether you want to accept or decline the invitation
   if (party.size === 1) {
-      // Si le groupe a seulement 1 membre, vous pouvez choisir d'accepter automatiquement
+      // If the group has only 1 member, you can choose to automatically accept
       await request.accept();
   } else {
-      // Si le groupe a plus d'un membre, vous pouvez choisir de l'accepter automatiquement ou d'appliquer d'autres conditions
-      // Ici, nous déclinons automatiquement l'invitation si le groupe a plus d'un membre
+      // If the group has more than one member, you can choose to automatically accept it or apply other conditions
+      // Here we automatically decline the invitation if the group has more than one member
       await request.decline();
   }
 });
 
-// fetch(`https://nextdroopyinstances.fhdhd1.repl.co/api/public/version?api_key=${api_key}`)
-//   .then(response => response.text())
-//   .then(api_version => {
-//     if (api_version !== bot_version) {
-//       update();
-//       setTimeout(() => {
-//         process.exit();
-//       }, 2500);
-//     }
-//   })
-//   .catch(error => {
-//     console.error('API request failed:', error);
-//   });
 
 
-
-
-
-/*async function sendLog(logMessage) {
-  const webhookURL = 'https://ptb.discord.com/api/webhooks/1187901775412474077/dsvkogYcDXuyoMGlHxxb3E74O291SBHMknJBoHPWaie_ntKOpBUzSfytZ2nOKeT-Dd7P';
-
-  try {
-    await axios.post(webhookURL, { content: logMessage });
-  } catch (error) {
-    console.error('Erreur lors de l\'envoi du journal :', error.message);
-  }
-}*/
-
-//const webhookClient = new Discord.WebhookClient({ url: "https://ptb.discord.com/api/webhooks/1187901775412474077/dsvkogYcDXuyoMGlHxxb3E74O291SBHMknJBoHPWaie_ntKOpBUzSfytZ2nOKeT-Dd7P" });
-//send le webhook avec le message : test
 
 const run_discord_client = nconf.get('discord:run_discord_client')
 const discord_crash_command = nconf.get('discord:disable_crash_command')
@@ -155,7 +126,7 @@ dclient.once('ready', () => {
     name: "status",
     description: "just SENDS the STATUS!",
   })
-commands?.create({
+  commands?.create({
   name: 'add',
   description: 'adds a user',
   options: [
@@ -226,7 +197,7 @@ commands?.create({
     name: 'restartall',
     description: 'restarts all clients'
   })
- commands?.create({
+  commands?.create({
    name: 'leaveparty',
    description: "leaves the current party"
  })
@@ -262,7 +233,7 @@ commands?.create({
         name: 'sitingout',
         description: 'sets the sitingout state',
         required: true,
-       
+
         type: discord.Constants.ApplicationCommandOptionTypes.BOOLEAN
       }
     ]
@@ -296,12 +267,6 @@ async function startKill() {
   setTimeout(killClient, 3200);
 }
 
-
-
-app.listen(3290, () => {
-  webhookClient.send(`${bot_loading_message}`)
-})
-
 var os = require('os');
 const { allowedPlaylists, websocketHeaders } = require('./utils/constants');
 
@@ -309,31 +274,28 @@ const { allowedPlaylists, websocketHeaders } = require('./utils/constants');
 const bLog = true;
 const GetVersion = require('./utils/version');
 
-/**
- * @typedef {import('./utils/types').MMSTicket} MMSTicket
- * @typedef {import('./utils/types').PartyMatchmakingInfo} PartyMatchmakingInfo
- */
+
 
 (async () => {
   const lastest = await GetVersion();
-  const Platform = os.platform() === "win32" ? "Windows" : os.platform();
-  const UserAgent = `Fortnite/${lastest.replace('-Windows', '')} ${Platform}/${os.release()}`
+  const Platform = "Windows";
+  //const Platform = os.platform() === "win32" ? "Windows" : os.platform(); to set the platform as the current platform
+  const UserAgent = `Fortnite/${lastest.replace('-Windows', '')} ${Platform}/22631.3880`
+  // const UserAgent = `Fortnite/${lastest.replace('-Windows', '')} ${Platform}/${os.release()}` same as above
 
   axios.defaults.headers["user-agent"] = UserAgent;
   console.log(`UserAgent set to, ${axios.defaults.headers["user-agent"]}`);
   webhookClient.send(`
 \`\`\`fix
 Bot loading \`\`\``)
-  // this?
-  /**
-     * @type {ClientOptions}
-     */
+
+  
   const deviceauths_1 = {
     "accountId": process.env.ACCOUNT1_ID,
     "deviceId": process.env.ACCOUNT1_DEVICE_ID,
     "secret": process.env.ACCOUNT1_SECRET,
   }
-  
+
 
   let accountsobject = []
   let accounts = [deviceauths_1]
@@ -353,14 +315,13 @@ Bot loading \`\`\``)
 
   await Promise.all(accountsobject.map(async (client) => {
     await client.login();
-    webhookClient.send(`Bot Fortnite
-\`\`\`diff
-+ ${client.user.self.displayName} Onlinee\`\`\``);
+    webhookClient.send(`\`\`\`diff
++ ${client.user.displayName} Online\`\`\``);
     party = client.party
     const fnbrclient = client
     client.setStatus(bot_invite_status, bot_invite_onlinetype)
     await client.party.me.setOutfit(cid);
-    await client.party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
+    await client.party.setPrivacy(Enums.PartyPrivacy.PRIVATE);
     await client.party.me.setLevel(level)
     await client.party.me.setBanner(banner)
     await client.party.me.setBackpack(bid)
@@ -368,9 +329,9 @@ Bot loading \`\`\``)
       if (!interaction.isCommand()) {
         return
       }
-    
+
       const  { commandName, options } = interaction
-    
+
       if (commandName === 'status') {
         interaction.reply({
           content: discord_command_status_message,
@@ -426,7 +387,7 @@ Bot loading \`\`\``)
           content: `This FNBRclient command is disabled!`
         })
       } else if (commandName === 'restartfnclient') {
-      
+
         fnbrclient.restart()
         interaction.reply({
           content: "FN client is restarting!"
@@ -457,7 +418,7 @@ Bot loading \`\`\``)
           content: `level was set to ${leveltoset}`
         })
       } else if (commandName === 'sitout') {
-        
+
         const sitvalue = options.getBoolean('sitingout')
         if (sitvalue === true) {
           client.party.me.setSittingOut(true)
@@ -471,7 +432,7 @@ Bot loading \`\`\``)
           })
         }
       } else if (commandName === 'readystate') {
-    
+
         const readystate = options.getBoolean('state')
         if (readystate === true) {
           client.party.me.setReadiness(true)
@@ -506,7 +467,7 @@ Bot loading \`\`\``)
       } else if (commandName === 'enablecrowns'){
          try {
            fnbrclient.party.setPlaylist({ playlistName: "playlist_bots_nobuildbr_duo" })
-           fnbrclient.party.chat.send("A user has enabled Crowns meaning the lobbys might be harder!")
+           fnbrclient.party.chat.send("A user has enabled crowns, meaning the lobbys might be harder!")
            function crownleaveparty() {
              fnbrclient.party.leave()
            }
@@ -524,7 +485,7 @@ Bot loading \`\`\``)
         return
       }
     })
-      
+
     axios.interceptors.response.use(undefined, function (error) {
       if (error.response) {
 
@@ -541,24 +502,6 @@ Bot loading \`\`\``)
 
 
 
-
-    // calculate checksum.
-    /*
-     function calcChecksum(payload, signature) {
-        const token = client.auth.sessions.get("fortnite").token;
-        console.log(client.auth.sessions.get('fortnite'))
-         const plaintext =
-             payload.slice(10, 20) + token + signature.slice(2, 10);
-
-         const data = Buffer.from(plaintext, 'utf16le');
-
-         const hashObject = crypto.createHash('sha1'); // Specify the hash algorithm as 'sha1'
-
-         const hashDigest = hashObject.update(data).digest();
-
-        return Buffer.from(hashDigest.subarray(0, 8)).toString('hex').toUpperCase(); // Corrected the subarray range to match SHA-1 output
-     }
-     */
 
     var bIsMatchmaking = false;
 
@@ -586,19 +529,18 @@ Bot loading \`\`\``)
           if (bIsMatchmaking) {
             webhookClient.send(`
 \`\`\`fix
-Le bot ${client.user.self.displayName} And members started to initiate matchmaking! \`\`\``)
+The bot ${client.user.displayName} and members started to initiate matchmaking! \`\`\``)
             return;
           }
           bIsMatchmaking = true;
           if (bLog) {
             webhookClient.send(`
 \`\`\`fix
-${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
+${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
           }
 
-          /**
-           * @type {PartyMatchmakingInfo}
-           */
+
+          
           const PartyMatchmakingInfo = JSON.parse(updated.meta.schema["Default:PartyMatchmakingInfo_j"]).PartyMatchmakingInfo;
 
 
@@ -615,7 +557,7 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
             client.party.me.setReadiness(false);
             client.party.members.map(async (player) => {
               if (player.id === client.user.self.id) return;
-              
+
             })
             bIsMatchmaking = false;
             client.party.leave()
@@ -625,36 +567,54 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
           var partyPlayerIds = client.party.members.filter(x => x.isReady).map(x => x.id).join(',')
 
           const bucketId = `${PartyMatchmakingInfo.buildId}:${PartyMatchmakingInfo.playlistRevision}:${PartyMatchmakingInfo.regionId}:${playlistId}`
-          webhookClient.send(`${bucketId}`)
+          webhookClient.send(`BucketId: ${bucketId}`)
 
+          
+          webhookClient.send(`PartyPlayersIDs: ${partyPlayerIds}`)
 
-
-          // auth.missing_player_id
-
-          webhookClient.send(`${partyPlayerIds}`)
 
           var query = new URLSearchParams();
           query.append("partyPlayerIds", partyPlayerIds);
+          query.append("bucketId", bucketId);
           query.append("player.platform", "Windows");
+          query.append("player.subregions", "FR,GB,DE");
+
+          webhookClient.send(`Playlist: ${playlistId}`)
+          query.append("player.option.linkCode", playlistId);
+
+          webhookClient.send(`SquadFill: ${client.party.squadFill}`)
+          query.append("player.option.fillTeam", client.party.squadFill);
+
+          query.append("player.option.preserveSquad", "false");
+          query.append("player.option.crossplayOptOut", "false");
           query.append("player.option.partyId", client.party.id);
+          query.append("player.option.splitScreen", "false");
+
+          
+          query.append("party.WIN", "true")
+
+          
           query.append("input.KBM", "true");
           query.append("player.input", "KBM");
-          query.append("bucketId", bucketId);
+          query.append("player.option.microphoneEnabled", "false");
+          query.append("player.option.uiLanguage", "es");
+          
 
-          client.party.members.filter(x => x.isReady).forEach(Member => {
-            const platform = Member.meta.get("Default:PlatformData_j");
-            if (!query.has(`party.{PlatformName}`)) {
-              query.append(`party.{PlatformName}`, "true")
-            }
-          });
+          //client.party.members.filter(x => x.isReady).forEach(Member => {
+          //    const platform = Member.meta.get("platform");
+          //    console.log(`Player ID: ${Member.id}, Platform: ${Member.platform}`); // Log de la plataforma de cada jugador
+          //    if (!query.has(`party.${platform}`)) {
+          //      console.log("mondongo");
+          //    }
+          //});
 
-          console.log(client.auth.sessions.get('fortnite'))
-          const token = client.auth.sessions.get("fortnite").accessToken
-          //const token = client.auth.auths.get("fortnite").token;
+          console.log(client.auth.auths.get('fortnite'))
+          const token = client.auth.auths.get('fortnite').token;
+
 
           const TicketRequest = (
             await axios.get(
-              `https://fngw-mcp-gc-livefn.ol.epicgames.com/fortnite/api/game/v2/matchmakingservice/ticket/player/${client.user.self.id}?${query}`,
+              `https://fngw-mcp-gc-livefn.ol.epicgames.com/fortnite/api/game/v2/matchmakingservice/ticket/player/${client.user.id}?${query}`,
               {
                 headers: {
                   Accept: 'application/json',
@@ -669,19 +629,16 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
           if (TicketRequest.status !== 200) {
             webhookClient.send(`
 \`\`\`diff
-- [${'Matchmaking'}], Error while obtaining ticket\`\`\``);
+- [${'Matchmaking'}] Error while obtaining ticket\`\`\``);
             client.party.me.setReadiness(false);
             return console.log(TicketRequest);
           }
 
-          /**
-           * @type {MMSTicket}
-           */
+
+          
           const ticket = TicketRequest.data;
 
-          /**
-           * @type {String}
-           */
+
           const HashRequest = (
             await axios.post(
               // "https://plebs.polynite.net/api/checksum",
@@ -702,7 +659,6 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
           }
 
 
-          //const calculatedchecksum = calcChecksum(ticket.payload, ticket.signature);
           const calculatedchecksum = HashRequest.data;
 
           var MMSAuth = [
@@ -787,7 +743,7 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
             matchmakingClient.on('close', function () {
               webhookClient.send(`
 \`\`\`diff
-- [${'Matchmaking'}], Closed matchmaking connection\`\`\``)
+- [${'Matchmaking'}] Closed matchmaking connection\`\`\``)
 
             });
           }
@@ -795,7 +751,7 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
           matchmakingClient.on('message', (msg) => {
             const message = JSON.parse(msg);
             if (bLog) {
-              webhookClient.send(`[${'Matchmaking'}]`, 'Message from the matchmaker', `[${message}]`)
+              webhookClient.send(`[${'Matchmaking'}]` 'Message from the matchmaker', `[${message}]`)
             }
 
             if (message.name === 'Error') {
@@ -810,7 +766,7 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
           if (bLog) {
             webhookClient.send(`
 \`\`\`fix
-[${'Party'}], Players entered the loading screen with the Bot**${client.user.self.displayName}**, I leave the group in 5sec...\`\`\``)
+[${'Party'}], Players entered the loading screen with the Bot**${client.user.displayName}**, I leave the group in 5sec...\`\`\``)
           }
 
           if (client.party?.me?.isReady) {
@@ -818,8 +774,8 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
           }
           bIsMatchmaking = false;
           client.party.members.map(async (player) => {
-            if (player.id === client.user.self.id) return;
-            
+            if (player.id === client.user.id) return;
+
           })
 
           if (leave_after) {
@@ -839,7 +795,7 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
               break;
             }
           }
-          await client.party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
+          await client.party.setPrivacy(Enums.PartyPrivacy.PRIVATE);
         }
 
         case "BattleRoyaleView": {
@@ -857,15 +813,15 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
       return cosmetics.find((c) => (c.id.toLowerCase() === query.toLowerCase()
         || c.name.toLowerCase() === query.toLowerCase()) && c.type.value === type);
     };
-  
+
     const handleCommand = (message, sender) => {
       console.log(`${sender.displayName}: ${message.content}`);
       if (!message.content.startsWith('!')) return;
-  
+
       const args = message.content.slice(1).split(' ');
       const command = args.shift().toLowerCase();
       const content = args.join(' ');
-  
+
       if (command === 'dev:set:skin') {
         const skin = findCosmetic(content, 'outfit');
         if (skin) client.party.me.setOutfit(skin.id);
@@ -918,38 +874,19 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
       const lowerMsg = msg.content.toLowerCase();
       const lowerDisplayName = msg.author.displayName.toLowerCase();
 
-      // Check if any keyword is present in the message content or the display name
-      // const containsBlockedWord = keywords.some(keyword => lowerMsg.includes(keyword) || lowerDisplayName.includes(keyword));
-
-      // if (containsBlockedWord) {
-      //   console.log("Blocked a user, reason: User is a bot!".red);
-      //   fnbrclient.blockUser(msg.author.displayName);
-      //   fnbrclient.party.leave()
-      // } else {
-      //   handleCommand(msg, msg.author);
-      // }
     });
     client.on('party:member:message', (msg) => {
       const keywords = ["bot", "bots", "ad", "#ad", "gift", "skins", "battle", "pass", "discord", "dsc", "mm", "matchmaking"];
       const lowerMsg = msg.content.toLowerCase();
       const lowerDisplayName = msg.author.displayName.toLowerCase();
 
-      // Check if any keyword is present in the message content or the display name
-      // const containsBlockedWord = keywords.some(keyword => lowerMsg.includes(keyword) || lowerDisplayName.includes(keyword));
-
-      // if (containsBlockedWord) {
-      //   console.log("Blocked a user, reason: User is a bot!".red);
-      //   fnbrclient.blockUser(msg.author.displayName);
-      //   fnbrclient.party.leave()
-      // } else {
-      //   return
-      // }
+ 
     });
 
 
 
     client.on("party:member:updated", async (Member) => {
-      if (Member.id === client.user.self.id) {
+      if (Member.id === client.user.id) {
         return;
       }
 
@@ -1029,36 +966,38 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
 
       let time = 1 * minute
       async function leavepartyexpire() {
-        client.party.chat.send("Timer Fini !")
+        client.party.chat.send("Timer Finished!")
+        webhookClient.send("Timer finished!")
         await sleep(1.2)
         client.party.leave()
         const webhookClient = new Discord.WebhookClient({ url: process.env.DISCORD_WEBHOOK_URL });
         webhookClient.send(`
             \`\`\`diff
-            The bot ${client.user.self.displayName} Says it has an error with its Token game\`\`\``)
+            The bot ${client.user.displayName} Says it has an error with its Token game\`\`\``)
             webhookClient.send(`
                 \`\`\`diff
                 - Time tracking has stopped!\`\`\``)
         timerstatus = false
       }
 
-      if ([1] != party.size) { // ([1] !== party.size)
+      if ([1] != party.size) {
         webhookClient.send(`
         \`\`\`fix
-        "${client.user.self.displayName} Time has begun!\`\`\``)
+        "${client.user.displayName} Time has begun!\`\`\``)
         webhookClient.send(`
         \`\`\`fix
-        "${client.user.self.displayName} Time has begun!\`\`\``)
+        "${client.user.displayName} Time has begun!\`\`\``)
         this.ID = setTimeout(leavepartyexpire, bot_leave_time)
         timerstatus = true
 
         webhookClient.send(`
         \`\`\`diff
-        + Bot ${client.user.self.displayName} joined \`\`\``);
-        //const webhookClient = new Discord.WebhookClient({ url: "https://ptb.discord.com/api/webhooks/1187901775412474077/dsvkogYcDXuyoMGlHxxb3E74O291SBHMknJBoHPWaie_ntKOpBUzSfytZ2nOKeT-Dd7P" });
+        + Bot ${client.user.displayName} joined \`\`\``);
+
         webhookClient.send(`
         \`\`\`diff
-        + The bot ${client.user.self.displayName} joined \`\`\``) //sends the webhook with the message: test
+        + The bot ${client.user.displayName} joined \`\`\``)
+        
         let membersstr = "";
         join.party.members.map(async member => {
           membersstr += member.displayName + '\n'
@@ -1073,41 +1012,28 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
             const keywords = ["bot", "bots", "ad", "#ad", "gift", "skins", "battle", "pass", "discord", "dsc", "mm", "matchmaking"];
             const lowerDisplayName = member.displayName.toLowerCase();
 
-            // Check if any keyword is present in the message content or the display name
-            // const containsBlockedWord = keywords.some(keyword => lowerDisplayName.includes(keyword));
 
-            // if (containsBlockedWord) {
-            //   console.log("Blocked a user, reason: User is a bot!".red);
-            //   fnbrclient.blockUser(msg.author.displayName);
-            //   fnbrclient.party.leave()
-            // } else {
-            //   return
-            // }
           } catch (error) {
             webhookClient.send(`${error}`)
           }
 
         })
-        //console.log(join.party.members)
 
 
       }
       client.party.me.setEmote(eid);
       if ([2] == party.size) {
-        client.party.chat.send(`${bot_join_message}\n  Support server: dsc.gg/pulsarfn`)
         client.setStatus(bot_use_status, bot_use_onlinetype)
       }
       if ([3] == party.size) {
-        client.party.chat.send(`${bot_join_message}\n  Support server: dsc.gg/pulsarfn`)
         client.setStatus(bot_use_status, bot_use_onlinetype)
       }
       if ([4] == party.size) {
-        client.party.chat.send(`${bot_join_message}\n  Support server: dsc.gg/pulsarfn`)
         client.setStatus(bot_use_status, bot_use_onlinetype)
       }
       if ([1] == party.size) {
         client.setStatus(bot_invite_status, bot_invite_onlinetype)
-        await client.party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
+        await client.party.setPrivacy(Enums.PartyPrivacy.PRIVATE);
         if (client.party?.me?.isReady) {
           client.party.me.setReadiness(false);
         };
@@ -1125,22 +1051,19 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
    client.on('party:member:left', async (left) => {
       webhookClient.send(`
       \`\`\`diff
-      - BOT ${client.user.self.displayName} And The player to leave: ${left.displayName}\`\`\``)
+      - BOT ${client.user.displayName} And The player to leave: ${left.displayName}\`\`\``)
       if ([2] == party.size) {
-        client.party.chat.send(`${bot_join_message}\n Support server: dsc.gg/pulsarfn`)
         client.setStatus(bot_use_status, bot_use_onlinetype)
       }
       if ([3] == party.size) {
-        client.party.chat.send(`${bot_join_message}\n Support server: dsc.gg/pulsarfn`)
         client.setStatus(bot_use_status, bot_use_onlinetype)
       }
       if ([4] == party.size) {
-        client.party.chat.send(`${bot_join_message}\n Support server: dsc.gg/pulsarfn`)
         client.setStatus(bot_use_status, bot_use_onlinetype)
       }
       if ([1] == party.size) {
         client.setStatus(bot_invite_status, bot_invite_onlinetype)
-        await client.party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
+        await client.party.setPrivacy(Enums.PartyPrivacy.PRIVATE);
         if (client.party?.me?.isReady) {
           client.party.me.setReadiness(false);
         };
@@ -1150,7 +1073,7 @@ ${client.user.self.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\`
           clearTimeout(id)
           webhookClient.send(`
 \`\`\`diff
-- ${client.user.self.displayName}Time has stopped!\`\`\``)
+- ${client.user.displayName}Time has stopped!\`\`\``)
         };
       }
     })
