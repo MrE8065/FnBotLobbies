@@ -15,10 +15,7 @@ Este es un bot para Fortnite pensado para ser ejecutado en [Replit](https://repl
 
   <img src="assets/Secrets.png" width="700">
   
-- Añade los siguientes secretos:
-
-  <img src="assets/Secrets2.png" width="700">
-  
-  Entra [aquí](assets/docs/secrets.md) para saber que poner en cada uno
+- Añade los siguientes [secretos](assets/docs/secrets.md)
+ 
 
 - ¡Y eso sería todo! También puedes entrar en el archivo config.json para cambiar cosas como la skin del bot, el estado...
