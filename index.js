@@ -751,7 +751,7 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
           matchmakingClient.on('message', (msg) => {
             const message = JSON.parse(msg);
             if (bLog) {
-              webhookClient.send(`[${'Matchmaking'}]` 'Message from the matchmaker', `[${message}]`)
+              webhookClient.send(`[${'Matchmaking'}]`, 'Message from the matchmaker', `[${message}]`)
             }
 
             if (message.name === 'Error') {
