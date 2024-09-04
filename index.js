@@ -124,7 +124,7 @@ dclient.once('ready', () => {
 
   commands?.create({
     name: "status",
-    description: "just SENDS the STATUS!",
+    description: "Just sends the STATUS!",
   })
   commands?.create({
   name: 'add',
@@ -280,11 +280,11 @@ const GetVersion = require('./utils/version');
   const lastest = await GetVersion();
   const Platform = "Windows";
   //const Platform = os.platform() === "win32" ? "Windows" : os.platform(); to set the platform as the current platform
-  const UserAgent = `Fortnite/${lastest.replace('-Windows', '')} ${Platform}/22631.3880`
+  const UserAgent = `Fortnite/${lastest.replace('-Windows', '')} ${Platform}/ 10.0.22631.3880`
   // const UserAgent = `Fortnite/${lastest.replace('-Windows', '')} ${Platform}/${os.release()}` same as above
 
   axios.defaults.headers["user-agent"] = UserAgent;
-  console.log(`UserAgent set to, ${axios.defaults.headers["user-agent"]}`);
+  console.log(`[SYSTEM] UserAgent set to, ${axios.defaults.headers["user-agent"]}`);
   webhookClient.send(`
 \`\`\`fix
 Bot loading \`\`\``)
@@ -316,7 +316,7 @@ Bot loading \`\`\``)
   await Promise.all(accountsobject.map(async (client) => {
     await client.login();
     webhookClient.send(`\`\`\`diff
-+ ${client.user.displayName} Online\`\`\``);
++ ${client.user.displayName} is online\`\`\``);
     party = client.party
     const fnbrclient = client
     client.setStatus(bot_invite_status, bot_invite_onlinetype)
@@ -334,7 +334,7 @@ Bot loading \`\`\``)
 
       if (commandName === 'status') {
         interaction.reply({
-          content: discord_command_status_message,
+          content: 'Working!',
         })
       } else if (commandName === 'add') {
         const user = options.getString('user') || null
@@ -529,14 +529,14 @@ Bot loading \`\`\``)
           if (bIsMatchmaking) {
             webhookClient.send(`
 \`\`\`fix
-The bot ${client.user.displayName} and members started to initiate matchmaking! \`\`\``)
+['MATCHMAKING']${client.user.displayName} and members started to initiate matchmaking! \`\`\``)
             return;
           }
           bIsMatchmaking = true;
           if (bLog) {
             webhookClient.send(`
 \`\`\`fix
-${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
+[${'Matchmaking'}], Matchmaking Started \`\`\``)
           }
 
 
@@ -551,7 +551,7 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
           if (!allowedPlaylists.includes(playlistId)) {
             webhookClient.send(`
 \`\`\`diff
-- Unsupported playlist, ${playlistId}\`\`\``)
+- ${playlistId} is not a supported playlist \`\`\``)
             client.party.chat.send(`Playlist id: ${playlistId} is not a supported gamemode!`)
 
             client.party.me.setReadiness(false);
@@ -608,7 +608,6 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
           //    }
           //});
 
-          console.log(client.auth.auths.get('fortnite'))
           const token = client.auth.auths.get('fortnite').token;
 
 
@@ -624,7 +623,7 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
             )
           );
 
-          console.log("TICKET REQUEST: " + TicketRequest)
+          //console.log(TicketRequest)
 
           if (TicketRequest.status !== 200) {
             webhookClient.send(`
@@ -637,19 +636,19 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
 
           
           const ticket = TicketRequest.data;
+          const payload = ticket.payload;
+          const signature = ticket.signature;
+
+          
+          // Checksum calculation
+          const plaintext = payload.slice(10, 20) + "Don'tMessWithMMS" + signature.slice(2, 10);
+          const data = Buffer.from(plaintext, 'utf16le');
+          const sha1 = crypto.createHash('sha1').update(data).digest();
+          const calculatedchecksum = sha1.slice(2, 10).toString('hex').toUpperCase();
+          console.log("Checksum successful!");
 
 
-          const HashRequest = (
-            await axios.post(
-              // "https://plebs.polynite.net/api/checksum",
-              "https://api.waferbot.com/checksum",
-              ticket,
-              {
-                Accept: 'application/json'
-              }
-            )
-          );
-
+          
           if (TicketRequest.status !== 200) {
             webhookClient.send(`
 \`\`\`diff
@@ -659,7 +658,6 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
           }
 
 
-          const calculatedchecksum = HashRequest.data;
 
           var MMSAuth = [
             "Epic-Signed",
@@ -766,7 +764,7 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
           if (bLog) {
             webhookClient.send(`
 \`\`\`fix
-[${'Party'}], Players entered the loading screen with the Bot**${client.user.displayName}**, I leave the group in 5sec...\`\`\``)
+[${'Party'}] Players entered the loading screen with **${client.user.displayName}**, leaving the group in 5sec...\`\`\``)
           }
 
           if (client.party?.me?.isReady) {
@@ -787,7 +785,7 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
                 client.party.chat.send("Time expired!")
                 await sleep(1.2)
                 client.party.leave()
-                webhookClient.send("[PARTY] I'm leaving the game for the reason **Too late to start a game, it's crazy**!")
+                webhookClient.send("[PARTY] I'm leaving the game because **Is too late to start a game, it's crazy**!")
                 webhookClient.send("[PARTY] Time tracking has stopped!")
                 timerstatus = false
               }
@@ -955,7 +953,7 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
       return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
     }
     client.on('party:member:joined', async (join) => {
-      console.log("PLAYER JOINED")
+      console.log("UPDATED THE PARTY")
 
       client.party.me.sendPatch({ 'Default:AthenaCosmeticLoadout_j': '{"AthenaCosmeticLoadout":{"cosmeticStats":[{"statName":"TotalVictoryCrowns","statValue":75},{"statName":"TotalRoyalRoyales","statValue":999},{"statName":"HasCrown","statValue":0}]}}', })
       await client.party.me.setOutfit(cid);
@@ -973,7 +971,7 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
         const webhookClient = new Discord.WebhookClient({ url: process.env.DISCORD_WEBHOOK_URL });
         webhookClient.send(`
             \`\`\`diff
-            The bot ${client.user.displayName} Says it has an error with its Token game\`\`\``)
+            ${client.user.displayName} says it has an error with its game token\`\`\``)
             webhookClient.send(`
                 \`\`\`diff
                 - Time tracking has stopped!\`\`\``)
@@ -983,20 +981,13 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
       if ([1] != party.size) {
         webhookClient.send(`
         \`\`\`fix
-        "${client.user.displayName} Time has begun!\`\`\``)
-        webhookClient.send(`
-        \`\`\`fix
-        "${client.user.displayName} Time has begun!\`\`\``)
+"${client.user.displayName} timer has begun!\`\`\``)
         this.ID = setTimeout(leavepartyexpire, bot_leave_time)
         timerstatus = true
 
         webhookClient.send(`
         \`\`\`diff
-        + Bot ${client.user.displayName} joined \`\`\``);
-
-        webhookClient.send(`
-        \`\`\`diff
-        + The bot ${client.user.displayName} joined \`\`\``)
++ ${client.user.displayName} joined \`\`\``)
         
         let membersstr = "";
         join.party.members.map(async member => {
@@ -1073,7 +1064,7 @@ ${client.user.displayName} [${'Matchmaking'}], 'Matchmaking Started' \`\`\``)
           clearTimeout(id)
           webhookClient.send(`
 \`\`\`diff
-- ${client.user.displayName}Time has stopped!\`\`\``)
+- ${client.user.displayName} timer has stopped!\`\`\``)
         };
       }
     })
