@@ -1,0 +1,5 @@
+- On your Discord server, select a channel or create a new one.
+- Click on “Edit channel”.
+- In the “Interactions” tab, select create a new webhook
+- Once created, select it and click on “Copy webhook URL”.
+- Paste the URL in the corresponding section of Replit secrets.
