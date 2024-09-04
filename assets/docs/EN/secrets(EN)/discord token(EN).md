@@ -1,0 +1,4 @@
+- Log in to [the Discord developer portal](https://discord.com/developers/applications)
+- Create a new bot by clicking on “New application”.
+- Once inside, go to the “Bot” tab and click on “Reset Token”.
+- Copy the token and paste it in the corresponding section in Replit secrets.
