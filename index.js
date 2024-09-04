@@ -589,17 +589,12 @@ Bot loading \`\`\``)
           query.append("player.option.crossplayOptOut", "false");
           query.append("player.option.partyId", client.party.id);
           query.append("player.option.splitScreen", "false");
-
-          
           query.append("party.WIN", "true")
-
-          
           query.append("input.KBM", "true");
           query.append("player.input", "KBM");
           query.append("player.option.microphoneEnabled", "false");
           query.append("player.option.uiLanguage", "es");
           
-
           //client.party.members.filter(x => x.isReady).forEach(Member => {
           //    const platform = Member.meta.get("platform");
           //    console.log(`Player ID: ${Member.id}, Platform: ${Member.platform}`); // Log de la plataforma de cada jugador
@@ -641,10 +636,10 @@ Bot loading \`\`\``)
 
           
           // Checksum calculation
-          const plaintext = payload.slice(10, 20) + "Don'tMessWithMMS" + signature.slice(2, 10);
-          const data = Buffer.from(plaintext, 'utf16le');
-          const sha1 = crypto.createHash('sha1').update(data).digest();
-          const calculatedchecksum = sha1.slice(2, 10).toString('hex').toUpperCase();
+          const plaintext = payload.slice(10, 20) + "Don'tMessWithMMS" + signature.slice(2, 10); //Slice payload from 10th to 20th character and signature from 2nd to 10th character. Also concatenates the slices with the fixed string "Don'tMessWithMMS"
+          const data = Buffer.from(plaintext, 'utf16le'); //Constructed plaintext is converted to Buffer using UTF-16LE encoding
+          const sha1 = crypto.createHash('sha1').update(data).digest(); //UTF-16LE encoded buffer is hashed using SHA-1
+          const calculatedchecksum = sha1.slice(2, 10).toString('hex').toUpperCase(); //Select 8 specific bytes from hash (from index 2 to 10), converts them to hexadecimal string, and converts it to uppercase
           console.log("Checksum successful!");
 
 
